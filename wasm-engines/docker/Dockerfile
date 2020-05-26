@@ -59,8 +59,8 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 10
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 10
 
 # install wasmi
-RUN git clone --single-branch --branch bench-time https://github.com/cdetrio/wasmi.git --recursive
-RUN cd wasmi && cargo test --release
+# RUN git clone --single-branch --branch bench-time https://github.com/cdetrio/wasmi.git --recursive
+# RUN cd wasmi && cargo test --release
 
 # Use old gcc/g++ for wavm (needed by wavm)
 RUN update-alternatives --remove-all gcc
@@ -102,9 +102,9 @@ RUN cd wavm-build && ninja
 
 
 # install wasmtime
-RUN rustup default nightly-2019-01-15
-RUN git clone --single-branch --branch bench-times https://github.com/cdetrio/wasmtime.git
-RUN cd wasmtime && cargo build --release
+# RUN rustup default nightly-2019-01-15
+# RUN git clone --single-branch --branch bench-times https://github.com/cdetrio/wasmtime.git
+# RUN cd wasmtime && cargo build --release
 
 
 # install wabt
@@ -195,12 +195,33 @@ RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 1
 RUN git clone https://github.com/wasmx/fizzy.git --single-branch --branch master
 RUN cd fizzy && mkdir build && cd build && cmake -DFIZZY_TESTING=ON .. && cmake --build .
 
+FROM ubuntu:19.10
+
+# install python 2.7
+RUN apt update && apt-get install -y wget python2.7 curl
+
+# install python 3.7
+RUN apt-get install -y python3.7
+RUN apt-get install -y python3-distutils
+RUN wget https://bootstrap.pypa.io/get-pip.py && python3.7 get-pip.py
+
+# install rust
+RUN curl https://sh.rustup.rs -sSf | \
+    sh -s -- --default-toolchain stable -y && . $HOME/.cargo/env
+ENV PATH=/root/.cargo/bin:$PATH
 
 ## install dependencies for standalone wasm prep
 RUN pip3 install jinja2 pandas
 
 # rust wasm32 target for compiling wasm
 RUN rustup target add wasm32-unknown-unknown
+
+# copy over engines
+
+COPY --from=0 /engines/life/life /engines/
+COPY --from=0 /engines/wabt/bin/wasm-interp /engines/wabt-interp
+COPY --from=0 /engines/fizzy/build/bin/fizzy-bench /engines/fizzy-bench
+COPY --from=0 /engines/wasm3/build/wasm3 /engines/wasm3
 
 # copy benchmarking scripts
 RUN mkdir /benchrunner
