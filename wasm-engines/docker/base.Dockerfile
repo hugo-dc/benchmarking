@@ -15,5 +15,5 @@ RUN cd cmake-3.16.4 && ./bootstrap && make && make install
 RUN apt-get install -y python2.7
 
 # install python 3.7
-RUN apt-get install -y python3.7, python3-distutils
+RUN apt-get install -y python3.7 python3-distutils
 RUN wget https://bootstrap.pypa.io/get-pip.py && python3.7 get-pip.py
