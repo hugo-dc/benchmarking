@@ -3,6 +3,7 @@
 # first compile standalone wasm files from rust code, and benchmark native rust
 # later, benchmark the standalone wasm files in all the wasm engines
 
+set -e
 
 # result output paths should be in mounted docker volumes
 CSV_NATIVE_RESULTS=/benchmark_results_data/native_benchmarks.csv
@@ -59,5 +60,28 @@ done
 
 # benchmark standalone wasm files in all the engines
 
+# Good 
+# wabt
+# fizzy - lost of "invalid duration" exceptions
+# v8-* liftoff works so I assume the other two do
+
+# Bad
+# wavm - errors about not being able to find libWASTParse.so
+
+# TODO
+# "wasmtime"
+# "life-polymerase" 
+# "life"   
+# "wasmi"  
+# "asmble" 
+# "wamr-interp" 
+# "wamr-jit" 
+# "wamr-aot" 
+# "wasm3" 
+# "fizzy" 
+
+
+echo "running benchmarks"
 cd /benchrunner
-python3.7 main.py --wasmdir="${WASM_MINIFIED_DIR}" --csvfile="${CSV_WASM_RESULTS}" |& tee wasm-engines-run1.log
+python3.7 main.py --wasmdir="${WASM_MINIFIED_DIR}" --csvfile="${CSV_WASM_RESULTS}" --engines "wabt,fizzy,v8-turbofan,v8-liftoff,v8-interpreter,wasm3,fizzy" |& tee wasm-engines-run1.log
+chown -R 1000:1000 /benchrunner /benchprep /benchmark_results_data

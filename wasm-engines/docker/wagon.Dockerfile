@@ -1,4 +1,4 @@
-FROM wasm-engines/golang:1.11
+FROM jwasinger/go-1-11-ubuntu-19
 
 # install wagon
 RUN git clone --single-branch --branch bench-times https://github.com/cdetrio/wagon

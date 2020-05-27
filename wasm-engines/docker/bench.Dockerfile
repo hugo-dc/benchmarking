@@ -21,10 +21,21 @@ RUN pip3 install jinja2 pandas click durationpy
 # rust wasm32 target for compiling wasm
 RUN rustup target add wasm32-unknown-unknown
 
-RUN mkdir -p /benchmark_results_data
+RUN mkdir -p /benchmark_results_data && mkdir /engines
+
+# install node for v8 benchmarks
+
+RUN curl -fsSLO --compressed https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.gz && \
+  tar -xvf node-v11.10.0-linux-x64.tar.gz -C /usr/local/ --strip-components=1 --no-same-owner
 
 # wasm engine binaries
-COPY --from=wabt /wabt/build/wasm-interp /usr/bin/wasm-interp
+COPY --from=wabt /wabt/build/wasm-interp /engines/wabt/wasm-interp
+COPY --from=fizzy /fizzy/build/bin/fizzy-bench /engines/fizzy/fizzy-bench
+
+COPY --from=wavm  /wavm-build/ /engines/wavm
+
+COPY --from=life  /life/life /engines/life/life
+COPY --from=wasm3 /wasm3/build/wasm3 /engines/wasm3/wasm3
 
 # copy benchmarking scripts
 RUN mkdir /benchrunner
@@ -33,18 +44,10 @@ COPY main.py /benchrunner
 COPY wamr_aot.sh /engines/wasm-micro-runtime/
 COPY fizzy.sh /engines/fizzy/
 
-RUN echo "asdf"
+RUN mkdir /engines/node && ln -s /usr/local/bin/node /engines/node/node 
 
 # copy scripts to generate standalone wasm modules
 RUN mkdir /benchprep
-COPY benchnativerust_prepwasm.py /benchprep
-COPY nanodurationpy.py /benchprep
-COPY rust-code /benchprep/rust-code
-COPY inputvectors /benchprep/inputvectors
-COPY benchmeteredstandalone.sh /benchprep
-RUN chmod +x /benchprep/benchmeteredstandalone.sh
-COPY bench_wasm_and_native.sh /benchprep
-RUN chmod +x /benchprep/bench_wasm_and_native.sh
 
 WORKDIR /benchprep
 

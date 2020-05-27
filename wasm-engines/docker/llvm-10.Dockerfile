@@ -1,4 +1,4 @@
-FROM wasm-engines/base
+FROM jwasinger/base
 
 RUN echo "deb http://apt.llvm.org/eoan/ llvm-toolchain-eoan-10 main\
 deb-src http://apt.llvm.org/eoan/ llvm-toolchain-eoan-10 main" >> /etc/apt/sources.list

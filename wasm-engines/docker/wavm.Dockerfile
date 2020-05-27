@@ -1,4 +1,4 @@
-FROM wasm-engines/base
+FROM jwasinger/base
 
 # Use old gcc/g++ for wavm (needed by wavm)
 RUN apt install -y gcc-7

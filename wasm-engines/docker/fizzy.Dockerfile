@@ -1,4 +1,4 @@
-FROM wasm-engines/llvm:10
+FROM jwasinger/llvm:10
 
 # install fizzy
 RUN git clone https://github.com/wasmx/fizzy.git --single-branch --branch master
