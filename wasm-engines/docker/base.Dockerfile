@@ -9,7 +9,7 @@ RUN apt-get install -y software-properties-common git sudo build-essential wget 
 # Install CMake
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4.tar.gz
 RUN tar -xzvf cmake-3.16.4.tar.gz
-RUN cd cmake-3.16.4 && ./bootstrap && make && make install
+RUN cd cmake-3.16.4 && ./bootstrap && make -j4 && make install
 
 # install python 2.7
 RUN apt-get install -y python2.7
