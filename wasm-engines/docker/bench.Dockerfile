@@ -2,6 +2,8 @@ FROM jwasinger/life as life
 FROM jwasinger/wabt as wabt
 # FROM jwasinger/wagon as wagon
 FROM jwasinger/wasm3 as wasm3
+FROM jwasinger/ssvm as ssvm
+FROM jwasinger/wasmtime as wasmtime
 
 # wavm broken
 # FROM jwasinger/wavm as wavm
@@ -57,6 +59,7 @@ COPY --from=wasmi /wasmi/target/release/examples/invoke /engines/wasmi/invoke
 COPY --from=life  /life/life /engines/life/life
 COPY --from=wasm3 /wasm3/build/wasm3 /engines/wasm3/wasm3
 COPY --from=wasmtime /wasmtime/target/release/wasmtime /engines/wasmtime/wasmtime
+COPY --from=ssvm /SSVM/build/tools/ssvm/ssvm /engines/ssvm/ssvm
 
 # copy benchmarking scripts
 RUN mkdir /benchrunner
