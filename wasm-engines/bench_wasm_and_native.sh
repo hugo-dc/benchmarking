@@ -67,24 +67,21 @@ done
 # wasmi - updated to a newer rust version (didn't and doesn't compile when using GCC)
 # wasm3
 # wasmtime
+# "SSVM
+# "wamr-interp"
+# "wamr-aot"
+# "wamr-jit"
 
 # Bad
 # wavm - errors about not being able to find libWASTParse.so
-# "wasmtime" - doesn't build (doesn't build in main branch either)
-
 # life, life-polymerase: was timing out on bls12381-sig recover
 
 # TODO
 
 # "asmble" 
-# "SSVM
-
-# "wamr-interp" 
-# "wamr-jit" 
-# "wamr-aot" 
 
 
 echo "running benchmarks"
 cd /benchrunner
-python3.7 main.py --wasmdir="${WASM_MINIFIED_DIR}" --csvfile="${CSV_WASM_RESULTS}" --engines "wasmtime" |& tee wasm-engines-run1.log
+python3.7 main.py --wasmdir="${WASM_MINIFIED_DIR}" --csvfile="${CSV_WASM_RESULTS}" --engines "asmble" |& tee wasm-engines-run1.log
 chown -R 1000:1000 /benchrunner /benchprep /benchmark_results_data

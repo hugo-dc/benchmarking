@@ -4,16 +4,14 @@ FROM jwasinger/wabt as wabt
 FROM jwasinger/wasm3 as wasm3
 FROM jwasinger/ssvm as ssvm
 FROM jwasinger/wasmtime as wasmtime
+FROM jwasinger/wamr as wamr
 
 # wavm broken
 # FROM jwasinger/wavm as wavm
+
 FROM jwasinger/fizzy as fizzy
-
-# build error with wamr
-# FROM jwasinger/wamr
-
+FROM jwasinger/asmble as asmble
 FROM jwasinger/wasmi as wasmi
-
 FROM jwasinger/base
 
 # install rust
@@ -39,6 +37,9 @@ RUN ln -s /usr/bin/clang-10  /usr/bin/clang
 ENV CC=clang
 ENV CXX=clang++
 
+ENV JAVA_VER 8
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+
 # rust wasm32 target for compiling wasm
 RUN rustup target add wasm32-unknown-unknown
 
@@ -48,6 +49,8 @@ RUN mkdir -p /benchmark_results_data && mkdir /engines
 
 RUN curl -fsSLO --compressed https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.gz && \
   tar -xvf node-v11.10.0-linux-x64.tar.gz -C /usr/local/ --strip-components=1 --no-same-owner
+
+RUN apt install -y openjdk-8-jre
 
 # wasm engine binaries
 COPY --from=wabt /wabt/build/wasm-interp /engines/wabt/wasm-interp
@@ -61,11 +64,15 @@ COPY --from=wasm3 /wasm3/build/wasm3 /engines/wasm3/wasm3
 COPY --from=wasmtime /wasmtime/target/release/wasmtime /engines/wasmtime/wasmtime
 COPY --from=ssvm /SSVM/build/tools/ssvm/ssvm /engines/ssvm/ssvm
 
+COPY --from=wamr /wasm-micro-runtime/product-mini/platforms/linux/build_interp/iwasm /engines/wamr/iwasm
+COPY --from=wamr /wasm-micro-runtime/wamr-compiler/build/wamrc /engines/wamr/wamrc
+COPY --from=asmble /asmble/ /engines/asmble/
+
 # copy benchmarking scripts
 RUN mkdir /benchrunner
 COPY project /benchrunner/project
 COPY main.py /benchrunner
-COPY wamr_aot.sh /engines/wasm-micro-runtime/
+COPY wamr_aot.sh /engines/wamr/
 COPY fizzy.sh /engines/fizzy/
 
 RUN mkdir /engines/node && ln -s /usr/local/bin/node /engines/node/node 
