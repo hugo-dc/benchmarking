@@ -1,18 +1,20 @@
-FROM jwasinger/life as life
-FROM jwasinger/wabt as wabt
+FROM jwasinger/life:1.0 as life
+FROM jwasinger/wabt:1.0 as wabt
 # FROM jwasinger/wagon as wagon
-FROM jwasinger/wasm3 as wasm3
-FROM jwasinger/ssvm as ssvm
-FROM jwasinger/wasmtime as wasmtime
-FROM jwasinger/wamr as wamr
+FROM jwasinger/wasm3:1.0 as wasm3
+FROM jwasinger/ssvm:1.0 as ssvm
+FROM jwasinger/wasmtime:1.0 as wasmtime
+FROM jwasinger/wamr:1.0 as wamr
+FROM jwasinger/wagon:1.0 as wagon
 
 # wavm broken
-# FROM jwasinger/wavm as wavm
+FROM jwasinger/wavm:1.0 as wavm
 
-FROM jwasinger/fizzy as fizzy
-FROM jwasinger/asmble as asmble
-FROM jwasinger/wasmi as wasmi
-FROM jwasinger/base
+FROM jwasinger/fizzy:1.0 as fizzy
+FROM jwasinger/asmble:1.0 as asmble
+FROM jwasinger/wasmi:1.0 as wasmi
+FROM jwasinger/bench-base:1.0
+FROM jwasinger/wagon:1.0
 
 # install rust
 RUN curl https://sh.rustup.rs -sSf | \
@@ -57,7 +59,8 @@ COPY --from=wabt /wabt/build/wasm-interp /engines/wabt/wasm-interp
 COPY --from=fizzy /fizzy/build/bin/fizzy-bench /engines/fizzy/fizzy-bench
 COPY --from=wasmi /wasmi/target/release/examples/invoke /engines/wasmi/invoke
 
-# COPY --from=wavm  /wavm-build/ /engines/wavm
+COPY --from=wavm  /wavm-build/ /engines/wavm
+RUN cd /engines/wavm/Lib && find . -name "*.so" -exec cp -prv '{}' '/usr/lib' ';'
 
 COPY --from=life  /life/life /engines/life/life
 COPY --from=wasm3 /wasm3/build/wasm3 /engines/wasm3/wasm3
@@ -67,6 +70,7 @@ COPY --from=ssvm /SSVM/build/tools/ssvm/ssvm /engines/ssvm/ssvm
 COPY --from=wamr /wasm-micro-runtime/product-mini/platforms/linux/build_interp/iwasm /engines/wamr/iwasm
 COPY --from=wamr /wasm-micro-runtime/wamr-compiler/build/wamrc /engines/wamr/wamrc
 COPY --from=asmble /asmble/ /engines/asmble/
+COPY --from=wagon /wagon/cmd/wasm-run/wasm-run /engines/wagon/wasm-run
 
 # copy benchmarking scripts
 RUN mkdir /benchrunner

@@ -1,4 +1,4 @@
-FROM jwasinger/llvm:10
+FROM jwasinger/llvm-10:1.0
 
 ENV CC=/usr/bin/gcc
 ENV CXX=/usr/bin/g++

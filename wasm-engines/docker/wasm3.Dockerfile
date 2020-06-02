@@ -1,4 +1,4 @@
-FROM jwasinger/llvm:10
+FROM jwasinger/llvm-10:1.0
 
-RUN git clone https://github.com/hugo-dc/wasm3.git --single-branch --branch benchmark
+RUN git clone https://github.com/ewasm-benchmarking/wasm3.git --single-branch --branch benchmark
 RUN cd wasm3 && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j4
