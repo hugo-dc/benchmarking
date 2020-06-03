@@ -1,25 +1,21 @@
 FROM jwasinger/life:1.0 as life
 FROM jwasinger/wabt:1.0 as wabt
-# FROM jwasinger/wagon as wagon
 FROM jwasinger/wasm3:1.0 as wasm3
 FROM jwasinger/ssvm:1.0 as ssvm
 FROM jwasinger/wasmtime:1.0 as wasmtime
 FROM jwasinger/wamr:1.0 as wamr
 FROM jwasinger/wagon:1.0 as wagon
-
-# wavm broken
 FROM jwasinger/wavm:1.0 as wavm
-
 FROM jwasinger/fizzy:1.0 as fizzy
 FROM jwasinger/asmble:1.0 as asmble
 FROM jwasinger/wasmi:1.0 as wasmi
+
 FROM jwasinger/bench-base:1.0
-FROM jwasinger/wagon:1.0
 
 # install rust
-RUN curl https://sh.rustup.rs -sSf | \
-    sh -s -- --default-toolchain stable -y && . $HOME/.cargo/env
-ENV PATH=/root/.cargo/bin:$PATH
+# RUN curl https://sh.rustup.rs -sSf | \
+#     sh -s -- --default-toolchain stable -y && . $HOME/.cargo/env
+# ENV PATH=/root/.cargo/bin:$PATH
 
 ## install dependencies for standalone wasm prep
 RUN pip3 install jinja2 pandas click durationpy
@@ -28,13 +24,13 @@ RUN pip3 install jinja2 pandas click durationpy
 # RUN apt update && apt install -y clang-8 lldb-8 lld-8
 
 # Install clang 10 (for life -polymerase)
-RUN echo "deb http://apt.llvm.org/eoan/ llvm-toolchain-eoan-10 main\
-deb-src http://apt.llvm.org/eoan/ llvm-toolchain-eoan-10 main" >> /etc/apt/sources.list
+# RUN echo "deb http://apt.llvm.org/eoan/ llvm-toolchain-eoan-10 main\
+# deb-src http://apt.llvm.org/eoan/ llvm-toolchain-eoan-10 main" >> /etc/apt/sources.list
 
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add - && apt update -y && apt install -y clang-10 lldb-10 lld-10
+# RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add - && apt update -y && apt install -y clang-10 lldb-10 lld-10
 
-RUN ln -s /usr/bin/clang++-10  /usr/bin/clang++
-RUN ln -s /usr/bin/clang-10  /usr/bin/clang
+# RUN ln -s /usr/bin/clang++-10  /usr/bin/clang++
+# RUN ln -s /usr/bin/clang-10  /usr/bin/clang
 
 ENV CC=clang
 ENV CXX=clang++
@@ -48,10 +44,10 @@ RUN rustup target add wasm32-unknown-unknown
 RUN mkdir -p /benchmark_results_data && mkdir /engines
 
 # install node for v8 benchmarks
-
 RUN curl -fsSLO --compressed https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.gz && \
   tar -xvf node-v11.10.0-linux-x64.tar.gz -C /usr/local/ --strip-components=1 --no-same-owner
 
+# install JRE for asmble
 RUN apt install -y openjdk-8-jre
 
 # wasm engine binaries

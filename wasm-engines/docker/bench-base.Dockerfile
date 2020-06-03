@@ -1,19 +1,13 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 
-# System deps
-RUN apt-get clean
-RUN apt-get update
-RUN apt-get install -y software-properties-common git sudo build-essential wget curl nano \
-    autoconf automake libtool llvm-6.0 make ninja-build unzip zlib1g-dev texinfo libssl-dev
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Install CMake
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4.tar.gz
-RUN tar -xzvf cmake-3.16.4.tar.gz
-RUN cd cmake-3.16.4 && ./bootstrap && make -j4 && make install
+RUN apt-get clean && \
+    apt-get update && \
+    apt-get install -y cmake software-properties-common git sudo build-essential wget curl nano python2.7 \
+    autoconf automake libtool llvm-6.0 make ninja-build unzip zlib1g-dev texinfo libssl-dev golang python3.8 python3-distutils python3-pip && \
+    curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain 1.42.0 -y && . $HOME/.cargo/env
 
-# install python 2.7
-RUN apt-get install -y python2.7
+RUN export GO111MODULE=on
 
-# install python 3.7
-RUN apt-get install -y python3.7 python3-distutils
-RUN wget https://bootstrap.pypa.io/get-pip.py && python3.7 get-pip.py
+ENV PATH=/root/.cargo/bin:$PATH
