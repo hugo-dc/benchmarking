@@ -19,7 +19,7 @@ scout_engines:
 	cd scout-engines/ && ./run_bench.sh
 
 wasm_engines:
-	cd wasm-engines/ && run_benchmarks.sh
+	cd wasm-engines/ && ./run_benchmarks.sh
 
 notebook:
 	cd notebooks && jupyter nbconvert --execute --to notebook --inplace wasm-engines.ipynb
