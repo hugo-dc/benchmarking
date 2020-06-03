@@ -1,9 +1,8 @@
-FROM ubuntu:19.04
+FROM ubuntu:19.10
 
 # System deps
-RUN apt-get clean
-RUN apt-get update
-RUN apt-get install -y software-properties-common git sudo build-essential wget curl nano \
+RUN apt-get update && \
+    apt-get install -y software-properties-common git sudo build-essential wget curl nano \
     autoconf automake libtool make ninja-build unzip zlib1g-dev texinfo libssl-dev
 
 RUN sudo apt-get clean autoclean
@@ -15,7 +14,7 @@ RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
     apt-get update
 
 
-RUN apt-get install -y libllvm-10-ocaml-dev libllvm10 llvm-10 llvm-10-dev llvm-10-doc llvm-10-examples llvm-10-runtime
+RUN apt-get install -y libllvm10 llvm-10 llvm-10-dev llvm-10-doc llvm-10-examples llvm-10-runtime
 RUN apt-get install -y clang-10 clang-tools-10 clang-10-doc libclang-common-10-dev libclang-10-dev libclang1-10 clang-format-10
 RUN apt-get install -y lldb-10 lld-10 libc++-10-dev libc++abi-10-dev
 
