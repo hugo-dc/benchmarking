@@ -1,6 +1,6 @@
 FROM ubuntu:19.10
 
-RUN apt update -y && apt-get install -y wget openjdk-8-jre
+RUN apt update -y && apt-get install -y wget
 
 # install asmble
 # RUN wget https://github.com/ewasm-benchmarking/asmble/archive/0.4.2-fl-bench-times.tar.gz

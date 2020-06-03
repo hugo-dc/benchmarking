@@ -4,14 +4,19 @@ set -e
 
 repo="jwasinger"
 
-docker build -t $repo/fizzy -f docker/fizzy.Dockerfile .
-docker build -t $repo/life  -f docker/life.Dockerfile .
-docker build -t $repo/ssvm -f  docker/ssvm.Dockerfile .
-docker build -t $repo/wabt -f docker/wabt.Dockerfile .
-docker build -t $repo/wagon -f docker/wagon.Dockerfile
-docker build -t $repo/wamr -f docker/wamr.Dockerfile .
-docker build -t $repo/wasm3 -f docker/wasm3.Dockerfile .
-docker build -t $repo/wasmi -f docker/wasmi.Dockerfile .
-docker build -t $repo/wasmtime -f docker/wasmtime.Dockerfile .
-docker build -t $repo/wavm  -f docker/wavm.Dockerfile .
-docker build -t $repo/bench -f docker/bench.Dockerfile
+# build base images
+docker build -t $repo/bench-base:1.0 -f docker/bench-base.Dockerfile .
+docker build -t $repo/llvm-10:1.0 -f docker/llvm-10.Dockerfile .
+
+# build engines
+docker build -t $repo/fizzy:1.0 -f docker/fizzy.Dockerfile .
+docker build -t $repo/life:1.0  -f docker/life.Dockerfile .
+docker build -t $repo/ssvm:1.0 -f  docker/ssvm.Dockerfile .
+docker build -t $repo/wabt:1.0 -f docker/wabt.Dockerfile .
+docker build -t $repo/wagon:1.0 -f docker/wagon.Dockerfile .
+# docker build -t $repo/wamr:1.0 -f docker/wamr.Dockerfile .
+docker build -t $repo/wasm3:1.0 -f docker/wasm3.Dockerfile .
+docker build -t $repo/wasmi:1.0 -f docker/wasmi.Dockerfile .
+docker build -t $repo/wasmtime:1.0 -f docker/wasmtime.Dockerfile .
+docker build -t $repo/wavm:1.0 -f docker/wavm.Dockerfile .
+docker build -t $repo/bench:1.0 -f docker/bench.Dockerfile .
