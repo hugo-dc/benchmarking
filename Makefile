@@ -5,7 +5,7 @@ build_docker_images:
 	cd evm/parity && docker build . -t parity-bench
 	cd evm/evmone && docker build . -t evmone-bench
 	cd evm/cita-vm && docker build . -t cita-vm-bench
-	docker pull jwasinger/bench
+	docker pull jwasinger/bench:1.0
 	cd scout-engines && docker build . -t scout-engines
 
 evm_precompiles:
