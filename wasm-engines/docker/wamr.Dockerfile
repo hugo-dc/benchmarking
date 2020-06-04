@@ -10,8 +10,8 @@ RUN git clone https://github.com/ewasm-benchmarking/wasm-micro-runtime.git --sin
     ./build_llvm.sh
 
 ## Build JIT
-RUN ./build_jit.sh  && \
+RUN cd wasm-micro-runtime/product-mini/platforms/linux && ./build_jit.sh  && \
 ## Build Interpreter
     mkdir build_interp && cd build_interp && cmake -DWAMR_BUILD_INTERP=1 .. -DCMAKE_BUILD_TYPE=Release .. && make -j4 && \
 ## Build Compiler
-    cd ../../.. && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
+    cd ../../../../wamr-compiler && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
