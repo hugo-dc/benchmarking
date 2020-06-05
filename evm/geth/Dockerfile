@@ -26,7 +26,7 @@ RUN add-apt-repository ppa:longsleep/golang-backports && apt-get update && apt-g
 
 # install geth
 RUN go get -u -v github.com/ewasm-benchmarking/go-ethereum
-RUN cd /root/go/src/github.com/ewasm-benchmarking/go-ethereum && git pull origin v1.9.4-benchmarking && make all
+RUN cd /root/go/src/github.com/ewasm-benchmarking/go-ethereum && git pull origin v1.9.14-benchmarking && make all
 RUN ln -s /root/go/src/github.com/ewasm-benchmarking/go-ethereum /go-ethereum
 
 WORKDIR /
