@@ -7,5 +7,5 @@ RUN apt install -y gcc-7 g++-7 &&  \
 # install wavm
     git clone --single-branch --branch bench-compile-time https://github.com/ewasm-benchmarking/WAVM && \
     mkdir wavm-build && \
-    cd wavm-build && cmake -G Ninja ../WAVM -DCMAKE_BUILD_TYPE=RelWithDebInfo && \
+    cd wavm-build && cmake -G Ninja ../WAVM -DCMAKE_BUILD_TYPE=Release && \
     ninja
