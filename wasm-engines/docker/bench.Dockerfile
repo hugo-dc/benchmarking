@@ -1,16 +1,16 @@
-FROM jwasinger/life:1.0 as life
-FROM jwasinger/wabt:1.0 as wabt
-FROM jwasinger/wasm3:1.0 as wasm3
-FROM jwasinger/ssvm:1.0 as ssvm
-FROM jwasinger/wasmtime:1.0 as wasmtime
-FROM jwasinger/wamr:1.0 as wamr
-FROM jwasinger/wagon:1.0 as wagon
-FROM jwasinger/wavm:1.0 as wavm
-FROM jwasinger/fizzy:1.0 as fizzy
-FROM jwasinger/asmble:1.0 as asmble
-FROM jwasinger/wasmi:1.0 as wasmi
+FROM ewasm/life:1.0 as life
+FROM ewasm/wabt:1.0 as wabt
+FROM ewasm/wasm3:1.0 as wasm3
+FROM ewasm/ssvm:1.0 as ssvm
+FROM ewasm/wasmtime:1.0 as wasmtime
+FROM ewasm/wamr:1.0 as wamr
+FROM ewasm/wagon:1.0 as wagon
+FROM ewasm/wavm:1.0 as wavm
+FROM ewasm/fizzy:1.0 as fizzy
+FROM ewasm/asmble:1.0 as asmble
+FROM ewasm/wasmi:1.0 as wasmi
 
-FROM jwasinger/bench-base:1.0
+FROM ewasm/bench-base:1.0
 
 # install rust
 # RUN curl https://sh.rustup.rs -sSf | \

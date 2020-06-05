@@ -1,4 +1,4 @@
-FROM jwasinger/bench-base:1.0
+FROM ewasm/bench-base:1.0
 
 RUN echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main\
     deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main" >> /etc/apt/sources.list && \

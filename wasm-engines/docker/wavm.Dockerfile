@@ -1,4 +1,4 @@
-FROM jwasinger/bench-base:1.0
+FROM ewasm/bench-base:1.0
 
 # Use old gcc/g++ for wavm (needed by wavm)
 RUN apt install -y gcc-7 g++-7 &&  \
