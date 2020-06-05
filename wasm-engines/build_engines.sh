@@ -19,4 +19,6 @@ docker build -t $repo/wasm3:1.0 -f docker/wasm3.Dockerfile .
 docker build -t $repo/wasmi:1.0 -f docker/wasmi.Dockerfile .
 docker build -t $repo/wasmtime:1.0 -f docker/wasmtime.Dockerfile .
 docker build -t $repo/wavm:1.0 -f docker/wavm.Dockerfile .
+docker build -t $repo/asmble:1.0 -f docker/asmble.Dockerfile .
+
 docker build -t $repo/bench:1.0 -f docker/bench.Dockerfile .
