@@ -25,7 +25,7 @@ ENV PATH=/root/.cargo/bin:$PATH
 RUN rustup default nightly-2019-01-15
 
 # install cita-vm
-RUN git clone --single-branch --branch evm-bencher https://github.com/cdetrio/cita-vm
+RUN git clone --single-branch --branch evm-bencher https://github.com/ewasm-benchmarking/cita-vm
 RUN cd cita-vm/evmbin && cargo build --release
 
 # install python modules needed for benchmarking script
